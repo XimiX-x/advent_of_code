@@ -1,6 +1,10 @@
-from numpy import cumsum
+print(sum([not pos for pos in [sum(([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])[:i])%100 for i in range(1, len([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")]) + 1)]]))
 
-print(sum([not pos for pos in cumsum([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])%100]))
+### Old version, faster but uses numpy so two lines
+
+# from numpy import cumsum
+
+# print(sum([not pos for pos in cumsum([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])%100]))
 
 ### And a cool animation :
 

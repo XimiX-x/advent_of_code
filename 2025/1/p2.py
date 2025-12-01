@@ -1,6 +1,10 @@
-from numpy import cumsum
+print(sum([abs(dep)//100 + (pos <= (-dep)%100 and pos > 0 if dep<0 else pos + dep%100 >= 100 and pos > 0) for pos, dep in zip(([sum(([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])[:i])%100 for i in range(1, len([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")]) + 1)])[:-1], ([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])[1:])]))
 
-print(sum([abs(dep)//100 + (pos <= (-dep)%100 and pos > 0 if dep<0 else pos + dep%100 >= 100 and pos > 0) for pos, dep in zip((cumsum([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])%100)[:-1], ([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])[1:])]))
+### Old version, faster but uses numpy so two lines
+
+# from numpy import cumsum
+
+# print(sum([abs(dep)//100 + (pos <= (-dep)%100 and pos > 0 if dep<0 else pos + dep%100 >= 100 and pos > 0) for pos, dep in zip((cumsum([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])%100)[:-1], ([50] + [(-1 if line.split()[0][0] == 'L' else 1) * int(line.split()[0][1:]) for line in open("input")])[1:])]))
 
 ### And a cool animation :
 
