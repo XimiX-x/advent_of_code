@@ -93,12 +93,6 @@ def simu_pb():
 run = True
 
 while run :
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-        if event.type == pygame.KEYDOWN :
-            if event.key == pygame.K_ESCAPE :
-                run = False
     run = simu_pb()
     if run :
         sleep(2)
