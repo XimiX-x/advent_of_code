@@ -61,16 +61,30 @@ def animate() :
     arriving = set()
     nb_path = {}
     mapp = [list(line.split()[0]) for line in open(input)]
-    col_bar = [(255, 0, 255), (0, 0, 255), (0, 255, 255), (0, 255, 0), (255, 255, 0), (255, 0, 0)]
+    # col_bar = [(255, 0, 255), (0, 0, 255), (0, 255, 255), (0, 255, 0), (255, 255, 0), (255, 0, 0)]
 
     def display(k) :
+        if nb_path.values() :
+            M = max(nb_path.values())
         for j, line in enumerate(mapp) :
             delta_y = max(0, k-75)
             for i, c in enumerate(line) :
                 if c == 'S' :
                     col = (0, 255, 0)
                 elif c == '|' :
-                    col = col_bar[(nb_path[(j, i)]-1)%len(col_bar)]
+                    temp = nb_path[(j, i)]/M*255*6 # type: ignore
+                    if temp < 255 :
+                        col = (255, 255-temp, 255)
+                    elif temp < 255*2 :
+                        col = (255-temp/2, 0, 255)
+                    elif temp < 255*3 :
+                        col = (0, temp/3, 255)
+                    elif temp < 255*4 :
+                        col = (0, 255, 255-temp/4)
+                    elif temp < 255*5 :
+                        col = (temp/5, 255, 0)
+                    else :
+                        col = (255, 255-temp/6, 0)
                 elif c == '^' :
                     if (j, i) in sep:
                         col = (255, 0, 0)
