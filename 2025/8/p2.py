@@ -149,3 +149,76 @@ while run :
         sleep(1)
 
 pygame.quit()
+
+### In 3D now
+
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
+
+points = []
+input = "test"
+
+fig = plt.figure()
+ax = fig.add_subplot(projection='3d')
+
+with open(input) as file :
+    for lines in file :
+        line = lines.split()[0]
+        line = line.split(',')
+        points.append((int(line[0]), int(line[1]), int(line[2])))
+
+def animate_plot(t) :
+    plt.cla()
+    ax.view_init(azim = 10 + abs(t-15), roll =37 - abs(15-t))
+    cluster = []
+    connexions = []
+
+    for x, y, z in points :
+        ax.scatter(x, y, z)
+
+    with open("test") as file :
+        for lines in file :
+            line = lines.split()[0]
+            line = line.split(',')
+            cluster.append([(int(line[0]), int(line[1]), int(line[2]))])
+
+    pos_reverse = {elem[0] : index for index, elem in enumerate(cluster)}
+
+    def dist(i, j) :
+        if i == j :
+            return inf
+        return (i[0]-j[0])**2 + (i[1]-j[1])**2 + (i[2]-j[2])**2
+
+    distances = []
+    for i, elem1 in enumerate(cluster) :
+        for j in range(i) :
+            distances.append((dist(cluster[j][0], elem1[0]), elem1[0], cluster[j][0]))
+
+    distances.sort()
+
+    index = 0
+    _, elem1, elem2 = distances[0]
+    i, j = pos_reverse[elem1], pos_reverse[elem2]
+    for _ in range(min(len(distances), t)) :
+        if i != j :
+            for elem in cluster[j] :
+                pos_reverse[elem] = i
+            cluster[i] = cluster[i]+cluster[j] # type: ignore
+            if j != len(cluster)-1 :
+                cluster[j] = cluster[-1]
+                for elem in cluster[j] :
+                    pos_reverse[elem] = j
+            cluster.pop()
+            connexions.append((elem1, elem2))
+        elif index == min(len(distances), t)-1 :
+            connexions.append((elem1, elem2))
+        index += 1
+        _, elem1, elem2 = distances[index]
+        i, j = pos_reverse[elem1], pos_reverse[elem2]
+
+    for elem1, elem2 in connexions :
+        ax.plot([elem1[0], elem2[0]], [elem1[1], elem2[1]], [elem1[2], elem2[2]])
+
+ani = animation.FuncAnimation(fig, animate_plot, 30, interval = 50, repeat = True) # type: ignore
+plt.show()
