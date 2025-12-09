@@ -75,8 +75,8 @@ def animate() :
     max_area = 0
 
     def display_points() :
-        for x, y in points :
-            pygame.draw.rect(screen, (255, 0, 0), (x/100, y/100, 1, 1))
+        for p1, p2 in edges :
+            pygame.draw.rect(screen, (255, 0, 0), (min(p1[0], p2[0])/100, min(p1[1], p2[1])/100, abs(p1[0]-p2[0])/100+1, abs(p1[1]-p2[1])/100+1))
 
     def display_data(area) :
         text = font.render(f"Max area : {max_area}", False, (255, 255, 255))
